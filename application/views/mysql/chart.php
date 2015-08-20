@@ -41,7 +41,7 @@
 <div id="aborted" style="margin-top:10px; margin-left:0px; width:96%; height:300px;"></div>
 
 
-
+<!--
 <script src="lib/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="./lib/jqplot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="./lib/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
@@ -53,32 +53,35 @@
 <script type="text/javascript" src="./lib/jqplot/plugins/jqplot.donutRenderer.min.js"></script>
 <link href="./lib/jqplot/jquery.jqplot.min.css"  rel="stylesheet">
 
-
+-->
+<script src="lib/jquery-1.11.3.min.js"></script>
+<script src="lib/Highstock-2.1.7/js/highstock.js"></script>
 <script type="text/javascript">
 
 //=========================threads=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['threads_running']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['threads_running']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['threads_connected']?> ],
-    <?php }}else{ ?>
+    [<?php echo $item['time']?>, <?php echo $item['threads_connected']?> ],
+     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data3=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['threads_cached']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['threads_cached']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
+  /*
   var plot1 = $.jqplot('threads', [data1,data2,data3], {
     axes:{
         xaxis:{
@@ -155,25 +158,91 @@ $(document).ready(function(){
             zoom: true
     },
       
-  });
+  });*/
+    //alert(data1);
+    //alert(data2);
+    //alert(data3);
+   $('#threads').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?> Threads <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                {
+                   name:'connected',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+               
+                },
+               {
+                           name: 'runing',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },
+                {
+                    name:'cached',
+                    data: data3,
+                    tooltip: {
+                                valueDecimals: 2
+                            }                
+                }
+            ]
+            });
 });
+
+   
 
 //=========================qps_tps=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['QPS']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['QPS']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['TPS']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['TPS']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
+  $('#qps_tps').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?> QPS-TPS <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                {
+                   name:'TPS',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+               
+                },
+               {
+                           name: 'QPS',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               }
+            ]
+            });
+});
+  /*
   var plot1 = $.jqplot('qps_tps', [data1,data2], {
     axes:{
         xaxis:{
@@ -250,37 +319,79 @@ $(document).ready(function(){
     
   });
 });
-
+*/
 //=========================dml=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['com_select_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['com_select_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['com_insert_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['com_insert_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
    var data3=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['com_update_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['com_update_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
    var data4=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['com_delete_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['com_delete_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
+   $('#dml').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?> DML Persecond <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                {
+                   name:'insert',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+               
+                },
+               {
+                           name: 'select',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },
+                {
+                    name:'update',
+                    data: data3,
+                    tooltip: {
+                                valueDecimals: 2
+                            }                
+                },
+                {
+                    name:'delete',
+                    data: data4,
+                    tooltip: {
+                                valueDecimals: 2
+                            }                
+                }
+            ]
+            });
+});
+  /*
   var plot1 = $.jqplot('dml', [data1,data2,data3,data4], {
     axes:{
         xaxis:{
@@ -359,23 +470,51 @@ $(document).ready(function(){
   });
 });
 
-
+*/
 //=========================transaction=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['com_commit_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['com_commit_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['com_rollback_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['com_rollback_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
+  $('#transaction').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?> Transaction Persecond <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                
+               {
+                           name: 'commit',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },{
+                   name:'rollback',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                }
+            ]
+            });
+});
+  /*
   var plot1 = $.jqplot('transaction', [data1,data2], {
     axes:{
         xaxis:{
@@ -452,23 +591,52 @@ $(document).ready(function(){
     
   });
 });
-
+*/
 //=========================bytes=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['bytes_received']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['bytes_received']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['bytes_sent']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['bytes_sent']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
+
+   $('#bytes').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?> Network <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                
+               {
+                           name: 'bytes_received',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },{
+                   name:'bytes_sent',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                }
+            ]
+            });
+});
+  /*
   var plot1 = $.jqplot('bytes', [data1,data2], {
     axes:{
         xaxis:{
@@ -566,7 +734,7 @@ $(document).ready(function(){
   });
 });
 
-
+*/
 //=========================aborted=========================================//
 $(document).ready(function(){  
   var data1=[
@@ -583,6 +751,35 @@ $(document).ready(function(){
     []    
     <?php } ?>
   ];
+  
+   $('#aborted').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?>  Aborted <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                
+               {
+                           name: 'aborted_clients',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },{
+                   name:'aborted_connects',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                }
+            ]
+            });
+});
+  /*
   var plot1 = $.jqplot('aborted', [data1,data2], {
     axes:{
         xaxis:{
@@ -679,25 +876,53 @@ $(document).ready(function(){
     
   });
 });
-
+*/
 
 //=========================innodb io=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['innodb_buffer_pool_reads_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['innodb_buffer_pool_reads_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['innodb_buffer_pool_pages_flushed_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['innodb_buffer_pool_pages_flushed_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
-  var plot1 = $.jqplot('innodb_io', [data1,data2], {
+  $('#innodb_io').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?>  InnoDB IO <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                
+               {
+                           name: 'innodb_buffer_pool_reads',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },{
+                   name:'innodb_buffer_pool_pages_flushed',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                }
+            ]
+            });
+});
+/*  
+var plot1 = $.jqplot('innodb_io', [data1,data2], {
     axes:{
         xaxis:{
             renderer:$.jqplot.DateAxisRenderer,
@@ -773,18 +998,39 @@ $(document).ready(function(){
     
   });
 });
-
+*/
 
 
 //=========================innodb rows read=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['innodb_rows_read_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['innodb_rows_read_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
+   $('#innodb_rows_read').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?>  InnoDB Rows Read <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                
+               {
+                           name: 'innodb_rows_read',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               }
+            ]
+            });
+});
+  /*
   var plot1 = $.jqplot('innodb_rows_read', [data1], {
     axes:{
         xaxis:{
@@ -862,33 +1108,68 @@ $(document).ready(function(){
     
   });
 });
-
+*/
 
 
 //=========================innodb rows dml=========================================//
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['innodb_rows_inserted_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['innodb_rows_inserted_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['innodb_rows_updated_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['innodb_rows_updated_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data3=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['innodb_rows_deleted_persecond']?> ],
+    [<?php echo $item['time']?>, <?php echo $item['innodb_rows_deleted_persecond']?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
-  var plot1 = $.jqplot('innodb_rows_dml', [data1,data2,data3], {
+   $('#innodb_rows_dml').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?>  InnoDB Rows DML <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                
+               {
+                           name: 'innodb_rows_inserted',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },{
+                   name:'innodb_rows_updated',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                },{
+                   name:'innodb_rows_deleted',
+                   data: data3,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                }
+            ]
+            });
+});
+/*  
+var plot1 = $.jqplot('innodb_rows_dml', [data1,data2,data3], {
     axes:{
         xaxis:{
             renderer:$.jqplot.DateAxisRenderer,
@@ -965,7 +1246,7 @@ $(document).ready(function(){
     
   });
 });
-
+*/
 
 
 
@@ -973,25 +1254,60 @@ $(document).ready(function(){
 $(document).ready(function(){  
   var data1=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['key_buffer_read_rate']*100; ?> ],
+    [<?php echo $item['time']?>, <?php echo $item['key_buffer_read_rate']*100; ?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data2=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['key_buffer_write_rate']*100; ?> ],
+    [<?php echo $item['time']?>, <?php echo $item['key_buffer_write_rate']*100; ?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
   var data3=[
     <?php if(!empty($chart_reslut)) { foreach($chart_reslut as $item){ ?>
-    ["<?php echo $item['time']?>", <?php echo $item['key_blocks_used_rate']*100; ?> ],
+    [<?php echo $item['time']?>, <?php echo $item['key_blocks_used_rate']*100; ?> ],
     <?php }}else{ ?>
     []    
     <?php } ?>
   ];
+   $('#key_cache').highcharts('StockChart',{
+           yAxis:{
+               floor:0
+           },
+           title:{
+             text: "<?php echo $cur_server; ?>  Key Buffer <?php echo $this->lang->line('chart'); ?>" 
+           },
+           series:[
+                
+               {
+                           name: 'key_buffer_read_rate',
+                           data: data1,
+                           tooltip: {
+                                valueDecimals: 2
+                            }
+                          
+               },{
+                   name:'key_buffer_write_rate',
+                   data: data2,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                },{
+                   name:'key_blocks_used_rate',
+                   data: data3,
+                   tooltip: {
+                                valueDecimals: 2
+                            }
+           
+                }
+            ]
+            });
+});
+  /*
   var plot1 = $.jqplot('key_cache', [data1,data2,data3], {
     axes:{
         xaxis:{
@@ -1076,8 +1392,9 @@ $(document).ready(function(){
       
   });
 });
-
-
+*/
+   //======未修改的饼图========
+//=============================//*
 // 饼状资源使用图表
 
 $(document).ready(function(){
@@ -1162,5 +1479,5 @@ $(document).ready(function(){
   );
 });
 
-
+*/
 </script>

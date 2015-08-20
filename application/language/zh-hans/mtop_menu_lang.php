@@ -58,9 +58,16 @@ $lang['_Role'] = '角色管理';
 $lang['_Menu'] = '菜单管理';
 $lang['_Privilege'] = '权限节点';
 $lang['_Authorization'] = '授权管理';
-
-
-
+#inception
+$lang['_inception'] = 'SQL上线';
+$lang['_Create Form'] = '创建表单';
+$lang['_Form list'] = '表单中心';
+$lang['_Form status'] = '表单详情';
+$lang['_Form add'] = '添加表单';
+$lang['approve_yes'] = '同意上线';
+$lang['approve_no'] = '不同意上线';
+$lang['excute_yes'] = '执行上线';
+$lang['excute_no'] = '终止上线';
 
 /* End of file menu_lang.php */
 /* Location: ./system/language/zh-hans/menu_lang.php */

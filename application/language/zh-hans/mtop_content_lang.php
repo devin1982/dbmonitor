@@ -290,6 +290,21 @@ $lang['the_monitoring_process_is_not_started']='监控进程未启动或异常';
 $lang['please_input_host'] = '请输入主机';
 $lang['please_input_tags'] = '请输入标签';
 
+#inception 
+$lang['inception'] = 'SQL上线';
+$lang['create'] = '创建';
+$lang['form'] = '表单';
+$lang['line_description'] = '业务线';
+$lang['form_sql']='SQL内容';
+$lang['form_description']='变更原因';
+$lang['form_status']='表单状态';
+$lang['create_time']='提交日期';
+$lang['approve_time']='审批日期';
+$lang['excute_time']='执行日期';
+$lang['leader']='审批者';
+$lang['creater']='提交者';
+$lang['form_detail']='表单详情';
+$lang['form_in']='进入表单';
 
 /* End of file mtop_content_lang.php */
 /* Location: ./system/language/zh-hans/mtop_content_lang.php */

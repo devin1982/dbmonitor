@@ -69,7 +69,7 @@
                     <li <?php if($model=='lp_os'){ echo "class='active'";} ?>><a href="<?php echo site_url('lp_os/index'); ?>" class="hidden-phone visible-tablet visible-desktop" role="button">OS</a></li>
                     <li <?php if($model=='alarm'){ echo "class='active'";} ?>><a href="<?php echo site_url('alarm/index'); ?>" class="hidden-phone visible-tablet visible-desktop" role="button"><?php echo $this->lang->line('alarm'); ?></a></li>
                     <li <?php if($model=='settings'){ echo "class='active'";} ?>><a href="<?php echo site_url('settings/index'); ?>" class="hidden-phone visible-tablet visible-desktop" role="button"><?php echo $this->lang->line('settings'); ?></a></li>
-                    
+                    <li <?php if($model=='inception'){ echo "class='active'";} ?>><a href="<?php echo site_url('inception/index'); ?>" class="hidden-phone visible-tablet visible-desktop" role="button"><?php echo $this->lang->line('inception'); ?></a></li>
 
 
                     

@@ -85,7 +85,7 @@ on `status`.server_id=`server`.id order by threads_running desc limit 10;")->res
         
         //线性图表
         $chart_reslut=array();
-
+        //$myfile = fopen("time.txt", "a");
         for($i=$begin_time;$i>=0;$i--){
             $timestamp=time()-60*$i;
             $time= date('YmdHi',$timestamp);
@@ -124,10 +124,14 @@ on `status`.server_id=`server`.id order by threads_running desc limit 10;")->res
                     $chart_reslut[$i]['key_buffer_read_rate'] = $dbdata['key_buffer_read_rate'];
                     $chart_reslut[$i]['key_buffer_write_rate'] = $dbdata['key_buffer_write_rate'];
                     $chart_reslut[$i]['key_blocks_used_rate'] = $dbdata['key_blocks_used_rate'];
+                    
+                    $chart_reslut[$i]['time']=$timestamp*1000;
+                    //fwrite($myfile, $chart_reslut[$i]['time'].":\n");
             }
             
   
         }
+        //fclose($myfile);
         $data['chart_reslut']=$chart_reslut;
         //print_r($chart_reslut);
     

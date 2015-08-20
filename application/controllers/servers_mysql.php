@@ -61,19 +61,19 @@ class Servers_mysql extends Front_Controller {
 		if(isset($_POST['submit']) && $_POST['submit']=='add')
         {
 			$this->form_validation->set_rules('host',  'lang:host', 'trim|required');
-            $this->form_validation->set_rules('port',  'lang:port', 'trim|required|min_length[4]|max_length[6]|integer');
-            $this->form_validation->set_rules('username',  'lang:username', 'trim|required');
+                        $this->form_validation->set_rules('port',  'lang:port', 'trim|required|min_length[4]|max_length[6]|integer');
+                        $this->form_validation->set_rules('username',  'lang:username', 'trim|required');
 			$this->form_validation->set_rules('password',  'lang:password', 'trim|required');
 			$this->form_validation->set_rules('tags',  'lang:tags', 'trim|required');
-            $this->form_validation->set_rules('binlog_store_days',  'lang:binlog_store_days', 'trim|required|integer');
-            $this->form_validation->set_rules('threshold_warning_threads_connected',  'lang:alarm_threshold', 'trim|required|integer');
-            $this->form_validation->set_rules('threshold_warning_threads_running',  'lang:alarm_threshold', 'trim|required|integer');
+                        $this->form_validation->set_rules('binlog_store_days',  'lang:binlog_store_days', 'trim|required|integer');
+                        $this->form_validation->set_rules('threshold_warning_threads_connected',  'lang:alarm_threshold', 'trim|required|integer');
+                        $this->form_validation->set_rules('threshold_warning_threads_running',  'lang:alarm_threshold', 'trim|required|integer');
 			$this->form_validation->set_rules('threshold_warning_threads_waits',  'lang:alarm_threshold', 'trim|required|integer');
-            $this->form_validation->set_rules('threshold_warning_repl_delay',  'lang:alarm_threshold', 'trim|required|integer');
-            $this->form_validation->set_rules('threshold_critical_threads_connected',  'lang:alarm_threshold', 'trim|required|integer');
-            $this->form_validation->set_rules('threshold_critical_threads_running',  'lang:alarm_threshold', 'trim|required|integer');
+                        $this->form_validation->set_rules('threshold_warning_repl_delay',  'lang:alarm_threshold', 'trim|required|integer');
+                        $this->form_validation->set_rules('threshold_critical_threads_connected',  'lang:alarm_threshold', 'trim|required|integer');
+                        $this->form_validation->set_rules('threshold_critical_threads_running',  'lang:alarm_threshold', 'trim|required|integer');
 			$this->form_validation->set_rules('threshold_critical_threads_waits',  'lang:alarm_threshold', 'trim|required|integer');
-            $this->form_validation->set_rules('threshold_critical_repl_delay',  'lang:alarm_threshold', 'trim|required|integer');
+                        $this->form_validation->set_rules('threshold_critical_repl_delay',  'lang:alarm_threshold', 'trim|required|integer');
 			if ($this->form_validation->run() == FALSE)
 			{
 				$data['error_code']='validation_error';

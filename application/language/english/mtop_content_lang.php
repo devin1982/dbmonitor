@@ -289,6 +289,18 @@ $lang['the_latest_acquisition_time']='The latest acquisition time';
 $lang['the_monitoring_process_is_not_started']='The monitoring process is not started or abnormal';
 $lang['please_input_host'] = 'Please Input Host';
 $lang['please_input_tags'] = 'Please Input Tags';
-
+#inception
+$lang['inception'] = 'SQL online';
+$lang['line_description'] = 'Business Line';
+$lang['form_sql']='SQL Content';
+$lang['form_description']='Change Reason';
+$lang['form_status']='Status';
+$lang['create_time']='Create Time';
+$lang['approve_time']='Approve Time';
+$lang['excute_time']='Excute Time';
+$lang['leader']='Approver';
+$lang['creater']='Creater';
+$lang['form_detail']='Detail';
+$lang['form_in']='See Detail';
 /* End of file mtop_content_lang.php */
 /* Location: ./system/language/english/mtop_content_lang.php */

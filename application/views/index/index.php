@@ -9,7 +9,6 @@
     <p class="stat"><span class="number"><?php echo $servers_mongodb_count; ?></span>MongoDB</p>
     <p class="stat"><span class="number"><?php echo $servers_oracle_count; ?></span>Oracle</p>
     <p class="stat"><span class="number"><?php echo $servers_mysql_count; ?></span>MySQL</p>
-    
     </div>
 <h1 class="page-title"><?php echo $this->lang->line('dashboard'); ?></h1>
 </div>

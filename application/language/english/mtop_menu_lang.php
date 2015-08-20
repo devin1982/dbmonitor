@@ -63,7 +63,11 @@ $lang['_Menu'] = 'Menu';
 $lang['_Privilege'] = 'Privilege';
 $lang['_Authorization'] = 'Authorization';
 
-
+#inception
+$lang['_inception'] = 'SQL Online';
+$lang['_Create Form'] = 'Create Form';
+$lang['_Form list'] = 'Form Center';
+$lang['_Form status'] = 'Form Status';
 
 
 /* End of file menu_lang.php */
