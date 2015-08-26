@@ -294,7 +294,7 @@ $lang['please_input_tags'] = '请输入标签';
 $lang['inception'] = 'SQL上线';
 $lang['create'] = '创建';
 $lang['form'] = '表单';
-$lang['line_description'] = '业务线';
+$lang['line_description'] = '业务线名称';
 $lang['form_sql']='SQL内容';
 $lang['form_description']='变更原因';
 $lang['form_status']='表单状态';
@@ -305,6 +305,14 @@ $lang['leader']='审批者';
 $lang['creater']='提交者';
 $lang['form_detail']='表单详情';
 $lang['form_in']='进入表单';
+$lang['line_id']='业务线ID';
+$lang['line_leader']='业务负责人';
+$lang['line_db']='业务数据库ip';
+$lang['line_db_user']='业务数据库用户';
+$lang['line_db_pwd']='业务数据库密码';
+$lang['line_user_add']='添加业务线用户';
+$lang['line_user']='用户控制中心';
+$lang['line_user_mode']='用户';
 
 /* End of file mtop_content_lang.php */
 /* Location: ./system/language/zh-hans/mtop_content_lang.php */

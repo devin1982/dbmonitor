@@ -19,13 +19,7 @@
                 <a class="btn btn " href="<?php echo site_url('inception/index') ?>"><i class="icon-list"></i> <?php echo $this->lang->line('list'); ?></a>
                 <div class="btn-group"></div>
             </div>
-
-
-
-
-            <div class="well">
-
-  
+            <div class="well">  
                 <div class="control-group">
                     <label class="control-label" for="">*<?php echo $this->lang->line('line_description'); ?></label>
                     <div class="controls">

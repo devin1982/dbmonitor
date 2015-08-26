@@ -136,7 +136,7 @@
         <td><?php echo $item['leader'] ?></td>
         <td><?php echo $item['approve_time'] ?></td>
         <td><?php echo $item['excute_time'] ?></td>
-        <td><a href="<?php echo site_url('inception/status/'.$item['form_id']) ?>"  title="<?php echo $this->lang->line('form_in'); ?>" >&nbsp;&nbsp;&nbsp;<i class="icon-home"></i></a></td>
+        <td><a href="<?php echo site_url('inception/status/'.$item['form_id']) ?>"  title="<?php echo $this->lang->line('form_in'); ?>" >&nbsp;&nbsp;&nbsp;<i class=" icon-list-alt"></i></a></td>
        
         <!--
 	<td><?php if($item['connect']=='1'){ ?> <span class="label label-success"><?php echo $this->lang->line('success'); ?></span> <?php }else{  ?><span class="label label-important"><?php echo $this->lang->line('failure'); ?></span> <?php } ?></td>
@@ -166,10 +166,6 @@
     </table>
 </div>
 
- <script type="text/javascript">
-    $('#refresh').click(function(){
-        document.location.reload(); 
-    })
  </script>
 
 
