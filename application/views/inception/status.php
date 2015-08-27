@@ -92,20 +92,6 @@
 <?php endforeach;}?> </br>
         </caption>
 
-      <!--thead>
-          
-        <tr style="font-size: 12px;">
-        <th><?php echo $this->lang->line('line_description');?></th> 
-        <th><?php echo $this->lang->line('form_sql'); ?></th> 
-	<th><?php echo $this->lang->line('form_description'); ?></th>
-        <th><?php echo $this->lang->line('create_time'); ?></th>
-        <th><?php echo $this->lang->line('creater'); ?></th>
-	<th><?php echo $this->lang->line('form_status'); ?></th>
-	<th><?php echo $this->lang->line('leader'); ?></th>
-        <th><?php echo $this->lang->line('approve_time'); ?></th>
-        <th><?php echo $this->lang->line('excute_time'); ?></th>
-	</tr>
-      </thead-->
       <tbody>
          
  <?php if(!empty($datalist)) {?>
@@ -125,6 +111,9 @@
     </tr><tr style="font-size: 12px;">
         <th><?php echo $this->lang->line('creater'); ?></th>
         <td><?php echo $item['creater'] ?></td>
+    </tr><tr style="font-size: 12px;">
+        <th><?php echo $this->lang->line('end_form_time'); ?></th>
+        <td><?php echo $item['end_form_time'] ?></td>
     </tr><tr style="font-size: 12px;">
         <th><?php echo $this->lang->line('form_status'); ?></th>
         <td>

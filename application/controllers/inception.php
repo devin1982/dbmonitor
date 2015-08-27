@@ -19,6 +19,7 @@ class Inception extends Front_Controller  {
                 $this->form_validation->set_rules('line_id', 'Line_id', 'required');
                 $this->form_validation->set_rules('form_sql', 'Form_sql', 'required');
                 $this->form_validation->set_rules('form_description', 'Form_description', 'required');
+                $this->form_validation->set_rules('end_form_time', 'End_form_time', 'required');
             if ($this->form_validation->run() == FALSE){
 		$data['error_code']='validation_error';
             }else{
@@ -27,7 +28,9 @@ class Inception extends Front_Controller  {
                    $this->input->post('form_description'),
                    1,
                    $this->session->userdata['uid'],
-                   $this->input->post('line_id')
+                   $this->input->post('line_id'),
+                   $this->input->post('end_form_time')
+                       
                    );
                 $this->inception->add_inception_form($form_info);
                 redirect(site_url('inception/index')); 
@@ -46,6 +49,7 @@ class Inception extends Front_Controller  {
                 foreach ($form_status_list as $item) {
                     if (($item['form_status']==1) && ($item['leader_id']==$this->session->userdata['uid'])){
                         $this->inception->change_form_status($form_id,2);
+                        $this->inception->form_approve_time($form_id);
                     }
                 }
                 //then goto inception exame the sql
@@ -68,6 +72,7 @@ class Inception extends Front_Controller  {
                 foreach ($form_status_list as $item) {
                     if (($item['form_status']==1) && ($item['leader_id']==$this->session->userdata['uid'])){
                         $this->inception->change_form_status($form_id,11);
+                        $this->inception->form_approve_time($form_id);
                     }
                 }
                 break;
@@ -79,6 +84,7 @@ class Inception extends Front_Controller  {
                         //excute sql in inception for online
                         //if ($excute_status==1){
                         $this->inception->change_form_status($form_id,0);
+                        $this->inception->form_excute_time($form_id);
                         //else {$this->inception->change_form_status($form_id,13);}
                     }
                 }
@@ -90,6 +96,7 @@ class Inception extends Front_Controller  {
                 foreach ($form_status_list as $item) {
                     if (($item['form_status']==3) && ($item['creater_id']==$this->session->userdata['uid'])){
                         $this->inception->change_form_status($form_id,13);
+                        $this->inception->form_excute_time($form_id);
                     }
                 }
                 break;

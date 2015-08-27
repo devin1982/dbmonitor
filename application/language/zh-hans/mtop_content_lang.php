@@ -313,6 +313,7 @@ $lang['line_db_pwd']='业务数据库密码';
 $lang['line_user_add']='添加业务线用户';
 $lang['line_user']='用户控制中心';
 $lang['line_user_mode']='用户';
+$lang['end_form_time']='期望上线时间';
 
 /* End of file mtop_content_lang.php */
 /* Location: ./system/language/zh-hans/mtop_content_lang.php */

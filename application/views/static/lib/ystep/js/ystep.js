@@ -507,7 +507,7 @@
   $.fn.extend({
     //初始化
     loadStep: function(params){
-      
+    
       //基础框架
       var baseHtml =  "<div class='ystep-container'>"+
                         "<ul class='ystep-container-steps'>"+

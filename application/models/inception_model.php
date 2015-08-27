@@ -3,7 +3,7 @@ class Inception_model extends CI_Model{
     //protected $table='inception_form';
     function get_all_form(){
         $sql="select inception_service_line.line_description,inception_form.form_id,"
-                . "inception_form.form_sql,inception_form.form_description,"
+                . "inception_form.form_sql,inception_form.form_description,inception_form.end_form_time,"
                 . "inception_form.form_status,inception_form.create_time,"
                 . "inception_form.approve_time,inception_form.excute_time,"
                 . "leader_user.username as leader,create_user.username as creater "
@@ -11,7 +11,7 @@ class Inception_model extends CI_Model{
                 . "admin_user as create_user where inception_form.line_id=inception_service_line.line_id "
                 . "and leader_user.user_id=inception_service_line.line_leader_id and "
                 . "create_user.user_id=inception_form.user_id and (inception_form.user_id=? "
-                . "or inception_service_line.line_leader_id=?)";   
+                . "or inception_service_line.line_leader_id=?) order by end_form_time";   
         //$query = $this->db->query($sql);
         $query = $this->db->query($sql,array($this->session->userdata('uid'),$this->session->userdata('uid')));
         //$query = $this->db->get(); 
@@ -22,7 +22,7 @@ class Inception_model extends CI_Model{
     }
     function get_form_info($form_id){
         $sql="select inception_service_line.line_description,"
-                . "inception_form.form_id,inception_form.form_sql,"
+                . "inception_form.form_id,inception_form.form_sql,inception_form.end_form_time,"
                 . "inception_form.form_description,inception_form.form_status,"
                 . "inception_form.create_time,inception_form.approve_time,"
                 . "inception_form.excute_time,leader_user.username as leader,"
@@ -31,7 +31,7 @@ class Inception_model extends CI_Model{
                 . "as create_user where inception_form.line_id=inception_service_line.line_id "
                 . "and leader_user.user_id=inception_service_line.line_leader_id and "
                 . "create_user.user_id=inception_form.user_id and inception_form.form_id=? "
-                . "and (inception_form.user_id=? or inception_service_line.line_leader_id=?)";
+                . "and (inception_form.user_id=? or inception_service_line.line_leader_id=?) ";
         $query = $this->db->query($sql,array($form_id,$this->session->userdata('uid'),$this->session->userdata('uid')));
         if ($query->num_rows() > 0)
 	{
@@ -41,6 +41,14 @@ class Inception_model extends CI_Model{
     function change_form_status($form_id,$status){
         $sql='update inception_form set form_status=? where form_id=?;';
         $query = $this->db->query($sql,array($status,$form_id));
+    }
+    function form_approve_time($form_id){
+        $sql='update inception_form set approve_time=CURRENT_TIMESTAMP where form_id=?;';
+        $query = $this->db->query($sql,array($form_id));
+    }
+    function form_excute_time($form_id){
+        $sql='update inception_form set excute_time=CURRENT_TIMESTAMP where form_id=?;';
+        $query = $this->db->query($sql,array($form_id));
     }
     function get_form_status($form_id){
         $sql='select inception_form.form_status,inception_form.user_id as creater_id,'
@@ -56,8 +64,9 @@ class Inception_model extends CI_Model{
     }
     function get_service_line(){
         $sql='select inception_service_line.line_id,inception_service_line.line_description from '
-                . 'inception_service_line,inception_user_line where inception_service_line.line_status=1 and ((inception_service_line.line_id=inception_user_line.line_id '
-                . 'and  inception_user_line.user_id=?) or (inception_service_line.line_leader_id=?))';
+                . 'inception_service_line,inception_user_line where inception_service_line.line_status=1 and '
+                . '((inception_service_line.line_id=inception_user_line.line_id '
+                . 'and  inception_user_line.user_id=?) or (inception_service_line.line_leader_id=?)) group by line_id';
         $query = $this->db->query($sql,array($this->session->userdata['uid'],$this->session->userdata['uid']));
         if ($query->num_rows() > 0)
 	{
@@ -67,7 +76,7 @@ class Inception_model extends CI_Model{
     }
     function add_inception_form($data){
         
-        $sql='insert into inception_form (form_sql,form_description,form_status,user_id,line_id) values (?,?,?,?,?)';
+        $sql='insert into inception_form (form_sql,form_description,form_status,user_id,line_id,end_form_time) values (?,?,?,?,?,?)';
         $query = $this->db->query($sql,$data);
     }
     function show_service_line(){

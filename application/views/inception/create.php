@@ -48,6 +48,14 @@
                         <span class="help-inline"></span>
                     </div>
                 </div>
+                <script language="javascript" src="./lib/DatePicker/WdatePicker.js"></script>
+                <div class="control-group">
+                    <label class="control-label" for="">*<?php echo $this->lang->line('end_form_time'); ?></label>
+                    <div class="controls">
+                        <input class="Wdate" style="width:130px;" type="text" name="end_form_time" id="end_form_time>"  onFocus="WdatePicker({doubleCalendar:false,isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd HH:mm'})"/>
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
             </div>   
         </form>
     </div>
