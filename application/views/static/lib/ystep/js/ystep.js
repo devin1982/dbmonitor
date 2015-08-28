@@ -18,7 +18,7 @@
  * limitations under the License.
  * ======================================================================== */
 
-
+/*//*******
 +function ($) { "use strict";
 
   // TOOLTIP PUBLIC CLASS DEFINITION
@@ -304,7 +304,7 @@
     return placement == 'bottom' ? { top: pos.top + pos.height,   left: pos.left + pos.width / 2 - actualWidth / 2  } :
            placement == 'top'    ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2 - 20  } :
            placement == 'left'   ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth } :
-        /* placement == 'right' */ { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width   }
+        /* placement == 'right' *//*//******* { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width   }
   }
 
   Tooltip.prototype.getTitle = function () {
@@ -404,7 +404,7 @@
  * limitations under the License.
  * ======================================================================== */
 
-
+/*/****
 +function ($) { "use strict";
 
   // POPOVER PUBLIC CLASS DEFINITION
@@ -502,7 +502,7 @@
   }
 
 }(jQuery);
-
+*/
 (function($){
   $.fn.extend({
     //初始化
@@ -520,7 +520,7 @@
                         "</div>"+
                       "</div>";
       //步骤框架
-      var stepHtml = "<li class='ystep-step ystep-step-undone' data-container='body' data-toggle='popover' data-placement='top' data-title='' data-content='' data-trigger='hover'>"+
+      var stepHtml = "<li class='ystep-step ystep-step-undone'  data-toggle='popover'  data-placement='top' title='' data-content='' data-trigger='hover'>"+
                      "</li>";
       //决策器
       var logic = {
@@ -580,8 +580,8 @@
         for(i=0;i<arrayLength;i++){
           var _s = params.steps[i];
           //构造步骤html
-          $stepHtml.attr("data-title",_s.title);
-          $stepHtml.attr("data-content",_s.content);
+          //$stepHtml.attr("title",_s.title);          
+          //$stepHtml.attr("data-content",_s.content);
           $stepHtml.text(_s.title);
           //将步骤插入到步骤列表中
           $ystepContainerSteps.append($stepHtml);
@@ -597,7 +597,7 @@
         //插入到容器中
         $n.append($baseHtml);
         //渲染提示气泡
-        $n.find(".ystep-step").popover({});
+        //$n.find(".ystep-step").popover({});
         //默认执行第一个步骤
         $n.setStep(1);
       });

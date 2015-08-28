@@ -12,11 +12,7 @@
 </ul>
 
 <div class="container-fluid">
-<div class="row-fluid">
- 
-<script src="lib/bootstrap/js/bootstrap-switch.js"></script>
-<link href="lib/bootstrap/css/bootstrap-switch.css" rel="stylesheet"/>
-                    
+<div class="row-fluid">                    
 <div class="btn-toolbar">
     <a class="btn btn-primary " href="<?php echo site_url('inception/create') ?>"><i class="icon-plus"></i> <?php echo $this->lang->line('add'); ?></a>
   <div class="btn-group"></div>
@@ -46,7 +42,7 @@
  <?php foreach ($datalist  as $item):?>
     <tr style="font-size: 12px;">
         <td><?php echo $item['line_description']?></td>
-	<td data-toggle="tooltip" data-placement="left" title="<?php echo $item['form_sql'] ?>">SQL内容</td>
+	<td data-toggle="popver" data-placement="right" title="<?php echo $item['form_sql'] ?>" data-content="<?php echo $item['form_sql']?>">SQL内容</td>
         <td data-toggle="tooltip" data-placement="left" title="<?php echo $item['form_description'] ?>">具体原因</td>
         <td><?php echo $item['create_time'] ?></td>
         <td><?php echo $item['creater'] ?></td>

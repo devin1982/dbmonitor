@@ -14,8 +14,6 @@
 <div class="container-fluid">
 <div class="row-fluid">
  
-<script src="lib/bootstrap/js/bootstrap-switch.js"></script>
-<link href="lib/bootstrap/css/bootstrap-switch.css" rel="stylesheet"/>
                     
 
 <div class="btn-toolbar">
