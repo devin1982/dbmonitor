@@ -58,7 +58,8 @@ class Inception extends Front_Controller  {
                 $form_status_list=$this->inception->get_form_status($form_id);
                 foreach ($form_status_list as $item) {
                     if ($item['form_status'] == 2) { 
-                       $data=array('query'=>$item['form_sql']);
+                       //$data=array('query'=>$item['form_sql']);
+                       $data=array('form_id'=>$form_id);
                        $username="admin";
                        $password="lry2134";
                        $url="http://172.30.15.53:5000/inception/audit";
@@ -82,7 +83,7 @@ class Inception extends Front_Controller  {
 
                       if( $arr!=NULL){                         
                             $this->inception->add_form_audit($audit_result,$form_id);
-                            for ($i=0;$i<count($arr);$i++){
+                            for ($i=1;$i<=count($arr);$i++){
                                 if ($arr[$i]['errlevel']!=0) {
                                     $this->inception->change_form_status($form_id,12);
                                 } 
@@ -114,7 +115,7 @@ class Inception extends Front_Controller  {
                 $form_status_list=$this->inception->get_form_status($form_id);
                 foreach ($form_status_list as $item) {
                     if (($item['form_status']==3) && ($item['creater_id']==$this->session->userdata['uid'])){
-                        $data=array('query'=>$item['form_sql']);
+                        $data=array('form_id'=>$form_id);
                        $username="admin";
                        $password="lry2134";
                        $url="http://172.30.15.53:5000/inception/execute";
@@ -137,7 +138,7 @@ class Inception extends Front_Controller  {
 
                       if( $arr!=NULL){                         
                             $this->inception->add_form_execute($execute_result,$form_id);
-                            for ($i=0;$i<count($arr);$i++){
+                            for ($i=1;$i<=count($arr);$i++){
                                 if ($arr[$i]['errlevel']!=0) {
                                     $this->inception->change_form_status($form_id,13);
                                 } 

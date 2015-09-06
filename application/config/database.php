@@ -48,10 +48,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '127.0.0.1';
+$db['default']['hostname'] = '172.30.15.53';
 $db['default']['port']     = '3306';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
+$db['default']['username'] = 'lepus';
+$db['default']['password'] = 'lepus';
 $db['default']['database'] = 'lepus';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

@@ -242,7 +242,7 @@
 
                <?php 
                 $audit_list = json_decode(stripslashes($item['audit_result']),TRUE); 
-                for ($i=0;$i<count($audit_list);$i++){
+                for ($i=1;$i<=count($audit_list);$i++){
                     echo '<tr class=\'info\'><th class=\'info\'>ID</th><td>';
                         print($audit_list[$i]["ID"]);
                     echo '</td></tr>';
@@ -296,7 +296,7 @@
         <tbody id="execute_result">
         <?php if(!empty($item['execute_result'])){
             $execute_list = json_decode(stripslashes($item['execute_result']),TRUE); 
-                for ($i=0;$i<count($audit_list);$i++){
+                for ($i=1;$i<=count($audit_list);$i++){
                     echo '<tr class=\'info\'><th>ID</th><td>';
                         print($execute_list[$i]["ID"]);
                     echo '</td></tr>';
