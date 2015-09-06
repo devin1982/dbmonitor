@@ -6,12 +6,13 @@ class Inception extends Front_Controller  {
             $this->load->library('form_validation');
             $this->load->model("inception_model","inception");       
 	}
+    //inception表单列表
     public function index(){
         parent::check_privilege();
         $data["datalist"]=$this->inception->get_all_form();
         $this->layout->view("inception/index",$data);
     }
-    
+    //inception表单创建
     public function create() {
         parent::check_privilege();
         $data['error_code']='';
@@ -40,7 +41,7 @@ class Inception extends Front_Controller  {
         $this->layout->view("inception/create",$data);
     }
     
-    
+    //inception表单详情【表单操作页面】
     public function status($form_id='',$act=''){
         parent::check_privilege();
         switch ($act) {
@@ -52,20 +53,52 @@ class Inception extends Front_Controller  {
                         $this->inception->form_approve_time($form_id);
                     }
                 }
-                //then goto inception exame the sql
-               
-                /*$form_status_list=$this->inception->get_form_status($form_id);
+                break;
+            case 'audit_yes':
+                $form_status_list=$this->inception->get_form_status($form_id);
                 foreach ($form_status_list as $item) {
-                    if (($item['form_status']==2) {
-                 *   //excute python script to do something in inception system
-                 *   //insert the exame result to exame status table
-                 *      if( $excute_status==1){ 
-                            $this->inception->change_form_status($form_id,3);
-                 *      } else {
-                 *          $this->inception->change_form_status($form_id,12);  
-                 *      }
+                    if ($item['form_status'] == 2) { 
+                       $data=array('query'=>$item['form_sql']);
+                       $username="admin";
+                       $password="lry2134";
+                       $url="http://172.30.15.53:5000/inception/audit";
+                       /*$this->load->library('curl');
+                       $this->curl->create($url);
+                       $this->curl->http_login($username, $password);
+                       $this->curl->post(array('query'=>$item['form_sql']));*/
+                       $curl_handle = curl_init();
+                       curl_setopt($curl_handle, CURLOPT_URL,$url);
+                       curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+                       curl_setopt($curl_handle,  CURLOPT_TIMEOUT, 60);
+                       curl_setopt($curl_handle, CURLOPT_POST, 1);
+                       curl_setopt($curl_handle, CURLOPT_POSTFIELDS,$data);
+                       curl_setopt($curl_handle, CURLOPT_USERPWD, $username . ':' . $password);
+                       
+                       $buffer = curl_exec($curl_handle);
+                       curl_close($curl_handle);
+                       $audit_result= addslashes($buffer);
+                       //$audit_result=json_decode($buffer,true);
+                       $arr = json_decode($buffer,true);
+
+                      if( $arr!=NULL){                         
+                            $this->inception->add_form_audit($audit_result,$form_id);
+                            for ($i=0;$i<count($arr);$i++){
+                                if ($arr[$i]['errlevel']!=0) {
+                                    $this->inception->change_form_status($form_id,12);
+                                } 
+                            }
+                            $form_list=$this->inception->get_form_status($form_id);
+                            foreach ($form_list as $item2) {
+                                if ($item2['form_status'] == 2){
+                                    $this->inception->change_form_status($form_id,3);
+                                }
+                            }
+                        }
+                       
+                       
                     }
-                }*/
+                }
+                
                 break;
             case 'approve_no':
                 $form_status_list=$this->inception->get_form_status($form_id);
@@ -81,15 +114,44 @@ class Inception extends Front_Controller  {
                 $form_status_list=$this->inception->get_form_status($form_id);
                 foreach ($form_status_list as $item) {
                     if (($item['form_status']==3) && ($item['creater_id']==$this->session->userdata['uid'])){
-                        //excute sql in inception for online
-                        //if ($excute_status==1){
-                        $this->inception->change_form_status($form_id,0);
-                        $this->inception->form_excute_time($form_id);
-                        //else {$this->inception->change_form_status($form_id,13);}
+                        $data=array('query'=>$item['form_sql']);
+                       $username="admin";
+                       $password="lry2134";
+                       $url="http://172.30.15.53:5000/inception/execute";
+                       /*$this->load->library('curl');
+                       $this->curl->create($url);
+                       $this->curl->http_login($username, $password);
+                       $this->curl->post(array('query'=>$item['form_sql']));*/
+                       $curl_handle = curl_init();
+                       curl_setopt($curl_handle, CURLOPT_URL,$url);
+                       curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+                       curl_setopt($curl_handle,  CURLOPT_TIMEOUT, 60);
+                       curl_setopt($curl_handle, CURLOPT_POST, 1);
+                       curl_setopt($curl_handle, CURLOPT_POSTFIELDS,$data);
+                       curl_setopt($curl_handle, CURLOPT_USERPWD, $username . ':' . $password);
+                       
+                       $buffer = curl_exec($curl_handle);
+                       curl_close($curl_handle);
+                       $execute_result= addslashes($buffer);
+                       $arr = json_decode($buffer,true);
+
+                      if( $arr!=NULL){                         
+                            $this->inception->add_form_execute($execute_result,$form_id);
+                            for ($i=0;$i<count($arr);$i++){
+                                if ($arr[$i]['errlevel']!=0) {
+                                    $this->inception->change_form_status($form_id,13);
+                                } 
+                            }
+                            $form_list=$this->inception->get_form_status($form_id);
+                            foreach ($form_list as $item2) {
+                                if ($item2['form_status'] == 3){
+                                    $this->inception->change_form_status($form_id,0);
+                                    $this->inception->form_excute_time($form_id);
+                                }
+                            }
+                        }
                     }
-                }
-                //do something in inception system 
-                // if ( $result==1){$this->inception->change_form_status($form_id,0);}else{$this->inception->change_form_status($form_id,14);}
+                } 
                 break;
             case 'excute_no':
                 $form_status_list=$this->inception->get_form_status($form_id);
@@ -108,6 +170,7 @@ class Inception extends Front_Controller  {
         $data["datalist"]=$this->inception->get_form_info($form_id);
         $this->layout->view("inception/status",$data);
     }
+    //inception业务线列表
     function line_list(){
         parent::check_privilege();
         $result=$this->inception->show_service_line();
@@ -116,6 +179,7 @@ class Inception extends Front_Controller  {
         
         $this->layout->view("inception/line_list",$data);
     }
+    //inception添加业务线
     function line_add(){
         parent::check_privilege();
         if(isset($_POST['submit']) && $_POST['submit']=='add'){
@@ -143,6 +207,7 @@ class Inception extends Front_Controller  {
         $data["datalist"]=$this->inception->get_all_user();
         $this->layout->view('inception/line_add',$data);
     }
+    //inception修改业务线
     function edit($line_id){
         parent::check_privilege();
         if(isset($_POST['submit']) && $_POST['submit']=='edit'){
@@ -173,11 +238,13 @@ class Inception extends Front_Controller  {
         $data["datalist"]=$this->inception->get_line_info($line_id);
         $this->layout->view('inception/edit',$data);
         }
+    //inception删除业务线
     function delete($line_id){
         parent::check_privilege();
         $this->inception->delete_inception_service_line($line_id);
         redirect(site_url('inception/line_list'));
     }
+    //inception业务线包含用户修改
     function line_usermode($line_id){
         //$this->inception->delete_inception_service_line($line_id);
         //redirect(site_url('inception/line_list'));
@@ -192,8 +259,8 @@ class Inception extends Front_Controller  {
         $data["linelist"]=$this->inception->get_line_info($line_id);
         $data["userlist"]=$this->inception->get_all_user();
         $data["lineusers"]=[];
-        if ($this->inception->get_line_usermode($line_id)!=NULL){
-            $alllineusers=$this->inception->get_line_usermode($line_id);
+        if ($this->inception->get_line_user($line_id)!=NULL){
+            $alllineusers=$this->inception->get_line_user($line_id);
             foreach ($alllineusers as $item)
                 $data["lineusers"]=array_merge($data["lineusers"],array_values ($item));
         } 

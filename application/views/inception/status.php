@@ -116,6 +116,9 @@
         <th><?php echo $this->lang->line('form_status'); ?></th>
         <td>
             <?php switch ($item['form_status']) {
+            case 0:
+                echo "执行完毕";
+                break;
             case 1: 
                 if ($item['leader'] == $this->session->userdata('username')){
                 echo "请您审批中...";
@@ -176,7 +179,13 @@
                 }
                 break;
             case 2:
-                echo "审批通过，系统自动审核中...";
+                if ($item['leader'] == $this->session->userdata('username')){
+                    echo "审批通过，请提交审核中心";
+                } else {?>
+                    <div class="btn-toolbar">
+                    <a class="btn btn-primary " href="<?php echo site_url('inception/status/'.$item['form_id'].'/audit_yes/') ?>"><?php echo $this->lang->line('audit_yes'); ?></a>                   
+                    </div>
+                <?php }
                 break;
             case 3:
                 ?>
@@ -216,6 +225,115 @@
 <?php } ?>      
       </tbody>
     </table>
+<?php if(!empty($datalist)) {?>
+<?php foreach ($datalist  as $item):?>
+    <div class="btn btn-large btn-block btn-default" id="audit">
+            <?php if(!empty($item['audit_result'])){?>
+           表单SQL审核结果
+           
+            <?php } else { ?>
+            表单SQL尚未进行审核
+            <?php }?>
+        </div>
+    <table class="table table-hover table-bordered ">
+        
+        <tbody id="audit_result">
+            <?php if (!empty($item['audit_result'])) { ?>
+
+               <?php 
+                $audit_list = json_decode(stripslashes($item['audit_result']),TRUE); 
+                for ($i=0;$i<count($audit_list);$i++){
+                    echo '<tr class=\'info\'><th class=\'info\'>ID</th><td>';
+                        print($audit_list[$i]["ID"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>SQL</th><td>';
+                        print($audit_list[$i]["SQL"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>错误信息</th><td>';
+                        print($audit_list[$i]["errormessage"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>审核状态</th><td>';
+                        print($audit_list[$i]["stagestatus"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>备份DB</th><td>';
+                        print($audit_list[$i]["backup_dbname"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>序列号</th><td>';
+                        print($audit_list[$i]["sequence"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>变更行数</th><td>';
+                        print($audit_list[$i]["Affected_rows"]);
+                    echo '</td></tr>';
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+    <script>
+        $("#audit_result").hide();
+        $("#audit").click(function(){$("#audit_result").toggle();});
+    </script>
+<?php endforeach;?>
+<?php  }?> 
+
+<?php if(!empty($datalist)) { ?>
+<?php foreach ($datalist  as $item): ?>
+            <div class="btn btn-large btn-block btn-default" id="execute">
+            <?php if (!empty($item['execute_result'])){ ?>
+           表单SQL执行结果
+            <?php } else { ?>
+            表单SQL尚未执行
+            <?php } ?>
+        </div>
+    <table class="table table-hover table-bordered ">
+
+        <tbody id="execute_result">
+        <?php if(!empty($item['execute_result'])){
+            $execute_list = json_decode(stripslashes($item['execute_result']),TRUE); 
+                for ($i=0;$i<count($audit_list);$i++){
+                    echo '<tr class=\'info\'><th>ID</th><td>';
+                        print($execute_list[$i]["ID"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>SQL</th><td>';
+                        print($execute_list[$i]["SQL"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>错误信息</th><td>';
+                        print($execute_list[$i]["errormessage"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>执行状态</th><td>';
+                        print($execute_list[$i]["stagestatus"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>备份DB</th><td>';
+                        print($execute_list[$i]["backup_dbname"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>序列号</th><td>';
+                        print($execute_list[$i]["sequence"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr><th>变更行数</th><td>';
+                        print($execute_list[$i]["Affected_rows"]);
+                    echo '</td></tr>';
+                }
+        } ?>
+        </tbody>
+    </table>
+
+    <script>
+        $("#execute_result").hide();
+        $("#execute").click(function(){$("#execute_result").toggle();});
+    </script>
+<?php endforeach ; } ?>
 </div>
  </script>
 

@@ -49,6 +49,9 @@
         <td><?php echo $item['end_form_time'] ?></td>
         <td>
             <?php switch ($item['form_status']) {
+            case 0:
+                echo "执行完毕";
+                break;
             case 1: 
                 echo "审批中...";
                 break;
