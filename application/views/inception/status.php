@@ -120,7 +120,7 @@
                 echo "执行完毕";
                 break;
             case 1: 
-                if ($item['leader'] == $this->session->userdata('username')){
+                if ($item['leader'] == $this->session->userdata('username') && $item['creater'] != $this->session->userdata('username')){
                 echo "请您审批中...";
                 } else {
                 echo "审批中...";
@@ -179,7 +179,7 @@
                 }
                 break;
             case 2:
-                if ($item['leader'] == $this->session->userdata('username')){
+                if ($item['leader'] == $this->session->userdata('username') && $item['creater'] != $this->session->userdata('username')){
                     echo "审批通过，请提交审核中心";
                 } else {?>
                     <div class="btn-toolbar">
