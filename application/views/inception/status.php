@@ -14,19 +14,34 @@
 <div class="container-fluid">
 <div class="row-fluid">
  
-                    
-
 <div class="btn-toolbar">
   <div class="btn-group"></div>
 </div>
 
 <div class="well">
-    
+ 
     <table class="table table-hover table-bordered ">
         <caption>
            表单详细情况<hr/>
            <?php if(!empty($datalist)) {?>
  <?php foreach ($datalist  as $item):?>
+        <div class="flow_steps">
+            <ul>
+                <li class="done">第一步： 提交表单</li>
+                <li class="current_prev">第二步： 负责人审批</li>
+                <li class="current">第三步： SQL审核</li>
+                <li>第四步： SQL执行上线</li>
+                <li class="last">完成</li>
+                </ul>
+            <style>
+                .flow_steps ul li { list-style-type:none; float:left; height:23px; padding:0 40px 0 30px; line-height:23px; text-align:center; background:url(lib/progress.png) no-repeat 100% 0 #E4E4E4; font-weight:bold;}
+                .flow_steps ul li.done { list-style-type:none; background-position:100% -46px; background-color:#FFEDA2;}
+                .flow_steps ul li.current_prev { list-style-type:none; background-position:100% -23px; background-color:#FFEDA2;}
+                .flow_steps ul li.current { list-style-type:none; color:#fff; background-color:#990D1B;}
+                .flow_steps ul li.last { list-style-type:none; background-image:none;} 
+            </style>
+    
+        </div>   
         <link href="lib/ystep/css/ystep.css" rel="stylesheet"/>
         <script src="lib/ystep/js/jquery.min.js"></script>
         <script src="lib/ystep/js/ystep.js"></script>
@@ -226,7 +241,7 @@
       </tbody>
     </table>
 <?php if(!empty($datalist)) {?>
-<?php foreach ($datalist  as $item):?>
+<?php foreach ($datalist  as $item): ?>
     <div class="btn btn-large btn-block btn-default" id="audit">
             <?php if(!empty($item['audit_result'])){?>
            表单SQL审核结果
@@ -238,40 +253,29 @@
     <table class="table table-hover table-bordered ">
         
         <tbody id="audit_result">
-            <?php if (!empty($item['audit_result'])) { ?>
-
-               <?php 
-                $audit_list = json_decode(stripslashes($item['audit_result']),TRUE); 
+            <?php if (!empty($item['audit_result'])) { 
+                $audit_list = json_decode(stripslashes($item['audit_result']),TRUE);
                 for ($i=1;$i<=count($audit_list);$i++){
-                    echo '<tr class=\'info\'><th class=\'info\'>ID</th><td>';
+                    echo '<tr class=\'info\' style="font-size: 12px;"><th class=\'info\'>ID</th><td>';
                         print($audit_list[$i]["ID"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>SQL</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>SQL</th><td>';
                         print($audit_list[$i]["SQL"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>错误信息</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>错误信息</th><td>';
                         print($audit_list[$i]["errormessage"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>审核状态</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>审核状态</th><td>';
                         print($audit_list[$i]["stagestatus"]);
                     echo '</td></tr>';
-                    
-                    echo '<tr><th>备份DB</th><td>';
-                        print($audit_list[$i]["backup_dbname"]);
-                    echo '</td></tr>';
-                    
-                    echo '<tr><th>序列号</th><td>';
-                        print($audit_list[$i]["sequence"]);
-                    echo '</td></tr>';
-                    
                     echo '<tr><th>变更行数</th><td>';
                         print($audit_list[$i]["Affected_rows"]);
                     echo '</td></tr>';
                 }
-            }
+            
             ?>
         </tbody>
     </table>
@@ -279,8 +283,54 @@
         $("#audit_result").hide();
         $("#audit").click(function(){$("#audit_result").toggle();});
     </script>
-<?php endforeach;?>
-<?php  }?> 
+    
+    <?php 
+        $erro_tg=0;
+        for ($i=1;$i<=count($audit_list);$i++){            
+            if ($audit_list[$i]["errlevel"] >0 ) {
+                $erro_tg=1;
+            }           
+        }
+        if ( $erro_tg==1){ ?>
+               
+           
+ <div class="btn btn-large btn-block btn-default" id="audit_faild">
+     错误SQL列表  
+</div>
+    <table class="table table-hover table-bordered ">
+        
+        <tbody id="audit_faild_tg">
+            <?php 
+            for ($i=1;$i<=count($audit_list);$i++){                   
+                if ($audit_list[$i]['errlevel']>0){
+                    echo '<tr class=\'info\' style="font-size: 12px;"><th class=\'info\'>ID</th><td>';
+                        print($audit_list[$i]["ID"]);
+                    echo '</td></tr>';                   
+                    echo '<tr style="font-size: 12px;"><th>SQL</th><td>';
+                        print($audit_list[$i]["SQL"]);
+                    echo '</td></tr>';
+                    
+                    echo '<tr style="font-size: 12px;"><th>错误信息</th><td>';
+                        print($audit_list[$i]["errormessage"]);
+                    echo '</td></tr>';
+                    
+                    echo '<!--tr><th>变更行数</th><td>';
+                        print($audit_list[$i]["Affected_rows"]);
+                    echo '</td></tr-->';
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+    <script>
+        $("#audit_faild_tg").hide();
+        $("#audit_faild").click(function(){$("#audit_faild_tg").toggle();});
+    </script>
+    <?php } 
+    }
+        endforeach;    
+                } 
+                ?>
 
 <?php if(!empty($datalist)) { ?>
 <?php foreach ($datalist  as $item): ?>
@@ -297,31 +347,31 @@
         <?php if(!empty($item['execute_result'])){
             $execute_list = json_decode(stripslashes($item['execute_result']),TRUE); 
                 for ($i=1;$i<=count($audit_list);$i++){
-                    echo '<tr class=\'info\'><th>ID</th><td>';
+                    echo '<tr class=\'info\' style="font-size: 12px;"><th>ID</th><td>';
                         print($execute_list[$i]["ID"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>SQL</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>SQL</th><td>';
                         print($execute_list[$i]["SQL"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>错误信息</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>错误信息</th><td>';
                         print($execute_list[$i]["errormessage"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>执行状态</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>执行状态</th><td>';
                         print($execute_list[$i]["stagestatus"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>备份DB</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>备份DB</th><td>';
                         print($execute_list[$i]["backup_dbname"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>序列号</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>序列号</th><td>';
                         print($execute_list[$i]["sequence"]);
                     echo '</td></tr>';
                     
-                    echo '<tr><th>变更行数</th><td>';
+                    echo '<tr style="font-size: 12px;"><th>变更行数</th><td>';
                         print($execute_list[$i]["Affected_rows"]);
                     echo '</td></tr>';
                 }
