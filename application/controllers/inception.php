@@ -13,7 +13,7 @@ class Inception extends Front_Controller  {
         $this->layout->view("inception/index",$data);
     }
     //inception表单创建
-    public function create($form_id) {
+    public function create($form_id=null) {
         parent::check_privilege();
         $data['error_code']='';
         if(isset($_POST['submit']) && $_POST['submit']=='add'){
@@ -32,10 +32,10 @@ class Inception extends Front_Controller  {
                         $this->session->userdata['uid'],
                         $this->input->post('line_id'),
                         $this->input->post('end_form_time')                      
-                   );
+                    );
                     
-                        $this->inception->add_inception_form($form_data); 
-                    }else{
+                    $this->inception->add_inception_form($form_data); 
+                }else{
                         
                         $form_data = array( 
                         $this->input->post('form_sql'),
@@ -45,8 +45,8 @@ class Inception extends Front_Controller  {
                         $this->input->post('line_id'),
                         $this->input->post('end_form_time'),
                         $form_id
-                    );
-                        $this->inception->update_inception_form($form_id,$form_data);
+                        );
+                        $this->inception->update_inception_form($form_data);
                     }
                 }
             redirect(site_url('inception/index'));            

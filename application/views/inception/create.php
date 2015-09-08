@@ -12,7 +12,11 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <?php echo validation_errors()?>
-        <form name="form" class="form-horizontal" method="post" action="<?php echo site_url('inception/create') ?>" >
+        <form name="form" class="form-horizontal" method="post" action="<?php if(!empty($form_info)) { 
+                                    foreach ($form_info  as $info_item): 
+                                       echo site_url('inception/create/'.$info_item['form_id']); 
+                                    endforeach;
+                            } else { echo site_url('inception/create'); } ?>" >
             <input type="hidden" name="submit" value="add"/> 
             <div class="btn-toolbar">
                 <button type="submit" class="btn btn-primary"><i class="icon-save"></i> <?php echo $this->lang->line('save'); ?></button>
