@@ -27,7 +27,13 @@
                             <option >请选择业务线</option>
                             <?php if(!empty($datalist)) {?>
                             <?php foreach ($datalist  as $item):?>
-                                <option value="<?php echo $item['line_id']; ?>"  ><?php echo $item['line_description']; ?></option>
+                                <option value="<?php echo $item['line_id']; ?>" 
+                                <?php if(!empty($form_info)) { 
+                                    foreach ($form_info  as $info_item): 
+                                        if ($info_item['line_id']==$item['line_id']){ ?> selected = "selected" 
+                                    <?php } endforeach;
+                                } ?> >
+                                    <?php echo $item['line_description']; ?></option>
                             <?php endforeach;}?>
                         </select>
                     </div>
@@ -36,7 +42,11 @@
                 <div class="control-group">
                     <label class="control-label" for="">*<?php echo $this->lang->line('form_sql'); ?></label>
                     <div class="controls">
-                        <textarea  rows="5" class="span8" name="form_sql"></textarea>
+                        <textarea  rows="5" class="span8" name="form_sql"><?php if(!empty($form_info)) { 
+                                    foreach ($form_info  as $info_item): 
+                                        print($info_item['form_sql']); 
+                                    endforeach;
+                            } ?> </textarea>
                         <span class="help-inline"></span>
                     </div>
                  </div>
@@ -44,7 +54,12 @@
                 <div class="control-group">
                     <label class="control-label" for="">*<?php echo $this->lang->line('form_description'); ?></label>
                     <div class="controls">
-                        <textarea rows="5" class="span8" name="form_description" ></textarea>
+                        <textarea rows="5" class="span8" name="form_description" ><?php if(!empty($form_info)) { 
+                                    foreach ($form_info  as $info_item): 
+                                         echo $info_item['form_description'] ;
+                                    endforeach;
+                            } ?>
+                        </textarea>
                         <span class="help-inline"></span>
                     </div>
                 </div>
@@ -52,7 +67,13 @@
                 <div class="control-group">
                     <label class="control-label" for="">*<?php echo $this->lang->line('end_form_time'); ?></label>
                     <div class="controls">
-                        <input class="Wdate" style="width:130px;" type="text" name="end_form_time" id="end_form_time>"  onFocus="WdatePicker({doubleCalendar:false,isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd HH:mm'})"/>
+                        <input class="Wdate" style="width:130px;" type="text" name="end_form_time" id="end_form_time"  
+                               onFocus="WdatePicker({doubleCalendar:false,isShowClear:false,readOnly:false,dateFmt:'yyyy-MM-dd HH:mm'})"
+                               <?php if(!empty($form_info)) { 
+                                    foreach ($form_info  as $info_item): 
+                                        ?> value = "<?php echo $info_item['end_form_time']; ?>" 
+                                    <?php endforeach;
+                            } ?>/>
                         <span class="help-inline"></span>
                     </div>
                 </div>

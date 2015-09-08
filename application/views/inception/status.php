@@ -26,78 +26,56 @@
            <?php if(!empty($datalist)) {?>
  <?php foreach ($datalist  as $item):?>
         <div class="flow_steps">
-            <ul>
-                <li class="done">第一步： 提交表单</li>
-                <li class="current_prev">第二步： 负责人审批</li>
-                <li class="current">第三步： SQL审核</li>
-                <li>第四步： SQL执行上线</li>
-                <li class="last">完成</li>
-                </ul>
+            <ul id="stepbar">
+                <li id="step_1">第一步： 提交表单</li>
+                <li id="step_2">第二步： SQL审核</li>
+                <li id="step_3">第三步： 负责人审批</li>
+                <li id="step_4">第四步： SQL执行上线</li>
+                <li id="step_5" class="last">完成</li>
+            </ul>
+            <br/>
             <style>
                 .flow_steps ul li { list-style-type:none; float:left; height:23px; padding:0 40px 0 30px; line-height:23px; text-align:center; background:url(lib/progress.png) no-repeat 100% 0 #E4E4E4; font-weight:bold;}
                 .flow_steps ul li.done { list-style-type:none; background-position:100% -46px; background-color:#FFEDA2;}
                 .flow_steps ul li.current_prev { list-style-type:none; background-position:100% -23px; background-color:#FFEDA2;}
                 .flow_steps ul li.current { list-style-type:none; color:#fff; background-color:#990D1B;}
                 .flow_steps ul li.last { list-style-type:none; background-image:none;} 
-            </style>
-    
-        </div>   
-        <link href="lib/ystep/css/ystep.css" rel="stylesheet"/>
-        <script src="lib/ystep/js/jquery.min.js"></script>
-        <script src="lib/ystep/js/ystep.js"></script>
-    <div class="ystep1"></div>
+            </style>  
+        </div>
         <script>
-            
-    //根据jQuery选择器找到需要加载ystep的容器
-    //loadStep 方法可以初始化ystep
-    $(".ystep1").loadStep({
-      //ystep的外观大小
-      //可选值：small,large
-      size: "large",
-      //ystep配色方案
-      //可选值：green,blue
-      color: "blue",
-      //ystep中包含的步骤
-      steps: [{
-        //步骤名称
-        title: "提交",
-        //步骤内容(鼠标移动到本步骤节点时，会提示该内容)
-        content: "提交SQL上线流程"
-      },{
-        title: "审批",
-        content: "业务负责人审批"
-      },{
-        title: "审核",
-        content: "进入自动SQL审核中心，进行智能审核"
-      },{
-        title: "执行",
-        content: "执行SQL"
-      },{
-        title: "结束",
-        content: "SQL上线处理完毕"
-      }]
-    });
+       $.fn.extend({'setStep':function(n){
+               $(this).children("li").each(function(){
+                   if (($(this).index()+2)<n){
+                       $(this).addClass("done");
+                   }else if (($(this).index()+2)==n){
+                       $(this).addClass("current_prev");
+                   } else if (($(this).index()+1)==n){
+                       $(this).addClass("current");
+                   }                  
+               });
+       }});     
+
     <?php switch ($item['form_status']) {
             case 1: 
-                echo "$(\".ystep1\").setStep(1);";
+                echo "$(\"#stepbar\").setStep(1);";
                 break;
             case 2:
-                echo "$(\".ystep1\").setStep(2);";
+                echo "$(\"#stepbar\").setStep(2);";
                 break;
             case 3:
-                echo "$(\".ystep1\").setStep(4);";
+                echo "$(\"#stepbar\").setStep(4);";
                 break;
             case 11:
-                echo "$(\".ystep1\").setStep(2);";
+                echo "$(\"#stepbar\").setStep(2);";
                 break;
             case 12:
-                echo "$(\".ystep1\").setStep(3);";
+                echo "$(\"#stepbar\").setStep(3);";
                 break;
             case 13:
-                echo "$(\".ystep1\").setStep(4);";
+                echo "$(\"#stepbar\").setStep(4);";
                 break;
             case 0:
-                echo "$(\".ystep1\").setStep(5);";
+                echo "$(\"#stepbar\").setStep(5);";
                 break;             
         } 
         ?>
@@ -135,17 +113,19 @@
                 echo "执行完毕";
                 break;
             case 1: 
+                echo "SQL等待审核";
+                break;
+                
+            case 2:
+                
                 if ($item['leader'] == $this->session->userdata('username') && $item['creater'] != $this->session->userdata('username')){
-                echo "请您审批中...";
+                echo "请您审批";
                 } else {
-                echo "审批中...";
+                echo "等待审批";
                 }
                 break;
-            case 2:
-                 echo "SQL审核中...";
-                break;
             case 3:               
-                    echo "等待上线...";              
+                    echo "等待上线";              
                 break;
             case 11:
                 echo "审批禁止上线";
@@ -182,6 +162,16 @@
                 echo "成功上线";
                 break;
             case 1: 
+                if ($item['leader'] == $this->session->userdata('username') && $item['creater'] != $this->session->userdata('username')){
+                    echo "请提交审核";
+                } else {?>
+                    <div class="btn-toolbar">
+                    <a class="btn btn-primary " href="<?php echo site_url('inception/status/'.$item['form_id'].'/audit_yes/') ?>"><?php echo $this->lang->line('audit_yes'); ?></a>                   
+                    </div>
+                <?php }
+                break;
+            case 2:
+                
                 if ($item['leader'] == $this->session->userdata('username')){
                 ?>
                 <div class="btn-toolbar">
@@ -192,15 +182,6 @@
                 } else {
                 echo "等待审批中...";
                 }
-                break;
-            case 2:
-                if ($item['leader'] == $this->session->userdata('username') && $item['creater'] != $this->session->userdata('username')){
-                    echo "审批通过，请提交审核中心";
-                } else {?>
-                    <div class="btn-toolbar">
-                    <a class="btn btn-primary " href="<?php echo site_url('inception/status/'.$item['form_id'].'/audit_yes/') ?>"><?php echo $this->lang->line('audit_yes'); ?></a>                   
-                    </div>
-                <?php }
                 break;
             case 3:
                 ?>
@@ -215,6 +196,13 @@
                 break;
             case 12:
                 echo "SQL审核未通过";
+                if ($item['leader'] == $this->session->userdata('username') && $item['creater'] != $this->session->userdata('username')){
+                    echo "未通过审核";
+                } else {?>
+                    <div class="btn-toolbar">
+                    <a class="btn btn-primary " href="<?php echo site_url('inception/create/'.$item['form_id']) ?>"><?php echo $this->lang->line('edit_sql'); ?></a>                   
+                    </div>
+                <?php }
                 break;
             case 13:
                 echo "SQL已被终止执行";
@@ -243,12 +231,12 @@
 <?php if(!empty($datalist)) {?>
 <?php foreach ($datalist  as $item): ?>
     <div class="btn btn-large btn-block btn-default" id="audit">
-            <?php if(!empty($item['audit_result'])){?>
+    <?php if(!empty($item['audit_result'])){?>
            表单SQL审核结果
            
-            <?php } else { ?>
+    <?php } else { ?>
             表单SQL尚未进行审核
-            <?php }?>
+    <?php }?>
         </div>
     <table class="table table-hover table-bordered ">
         

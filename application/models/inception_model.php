@@ -23,7 +23,7 @@ class Inception_model extends CI_Model{
     }
     //单个与用户相关表单详情数据
     function get_form_info($form_id){
-        $sql="select inception_service_line.line_description,"
+        $sql="select inception_service_line.line_description,inception_form.line_id,"
                 . "inception_form.form_id,inception_form.form_sql,"
                 . "inception_form.audit_result,inception_form.execute_result,inception_form.end_form_time,"
                 . "inception_form.form_description,inception_form.form_status,"
@@ -94,6 +94,11 @@ class Inception_model extends CI_Model{
     function add_inception_form($data){
         
         $sql='insert into inception_form (form_sql,form_description,form_status,user_id,line_id,end_form_time) values (?,?,?,?,?,?)';
+        $query = $this->db->query($sql,$data);
+    }
+    //修改表单
+    function update_inception_form($data){       
+        $sql='update inception_form set form_sql=?,form_description=?,form_status=?,user_id=?,line_id=?,end_form_time=? where form_id=?';
         $query = $this->db->query($sql,$data);
     }
     //业务线数据【展示业务线使用】

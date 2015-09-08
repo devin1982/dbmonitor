@@ -13,7 +13,7 @@ class Inception extends Front_Controller  {
         $this->layout->view("inception/index",$data);
     }
     //inception表单创建
-    public function create() {
+    public function create($form_id) {
         parent::check_privilege();
         $data['error_code']='';
         if(isset($_POST['submit']) && $_POST['submit']=='add'){
@@ -23,21 +23,38 @@ class Inception extends Front_Controller  {
                 $this->form_validation->set_rules('end_form_time', 'End_form_time', 'required');
             if ($this->form_validation->run() == FALSE){
 		$data['error_code']='validation_error';
-            }else{
-               $form_info = array( 
-                   $this->input->post('form_sql'),
-                   $this->input->post('form_description'),
-                   1,
-                   $this->session->userdata['uid'],
-                   $this->input->post('line_id'),
-                   $this->input->post('end_form_time')
-                       
+            }else {
+                if ($form_id==null){
+                    $form_data = array( 
+                        $this->input->post('form_sql'),
+                        $this->input->post('form_description'),
+                        1,
+                        $this->session->userdata['uid'],
+                        $this->input->post('line_id'),
+                        $this->input->post('end_form_time')                      
                    );
-                $this->inception->add_inception_form($form_info);
-                redirect(site_url('inception/index')); 
-            }
+                    
+                        $this->inception->add_inception_form($form_data); 
+                    }else{
+                        $form_data = array( 
+                        $this->input->post('form_sql'),
+                        $this->input->post('form_description'),
+                        1,
+                        $this->session->userdata['uid'],
+                        $this->input->post('line_id'),
+                        $this->input->post('end_form_time'),
+                        $form_id
+                    );
+                        $this->inception->update_inception_form($form_id,$form_data);
+                    }
+                }
+            redirect(site_url('inception/index'));            
         }
+        $data["form_info"]='';
         $data["datalist"]=$this->inception->get_service_line();
+        if ($form_id!=null){
+            $data["form_info"]=$this->inception->get_form_info($form_id);
+        }
         $this->layout->view("inception/create",$data);
     }
     
@@ -48,8 +65,8 @@ class Inception extends Front_Controller  {
             case 'approve_yes':
                 $form_status_list=$this->inception->get_form_status($form_id);
                 foreach ($form_status_list as $item) {
-                    if (($item['form_status']==1) && ($item['leader_id']==$this->session->userdata['uid'])){
-                        $this->inception->change_form_status($form_id,2);
+                    if (($item['form_status']==2) && ($item['leader_id']==$this->session->userdata['uid'])){
+                        $this->inception->change_form_status($form_id,3);
                         $this->inception->form_approve_time($form_id);
                     }
                 }
@@ -57,7 +74,7 @@ class Inception extends Front_Controller  {
             case 'audit_yes':
                 $form_status_list=$this->inception->get_form_status($form_id);
                 foreach ($form_status_list as $item) {
-                    if ($item['form_status'] == 2) { 
+                    if ($item['form_status'] == 1) { 
                        //$data=array('query'=>$item['form_sql']);
                        $data=array('form_id'=>$form_id);
                        $username="admin";
@@ -90,8 +107,8 @@ class Inception extends Front_Controller  {
                             }
                             $form_list=$this->inception->get_form_status($form_id);
                             foreach ($form_list as $item2) {
-                                if ($item2['form_status'] == 2){
-                                    $this->inception->change_form_status($form_id,3);
+                                if ($item2['form_status'] == 1){
+                                    $this->inception->change_form_status($form_id,2);
                                 }
                             }
                         }

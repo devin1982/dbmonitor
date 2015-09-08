@@ -315,6 +315,6 @@ $lang['line_user']='用户控制中心';
 $lang['line_user_mode']='用户';
 $lang['end_form_time']='期望上线时间';
 $lang['audit_yes']='提交审核';
-
+$lang['edit_sql']='修改表单';
 /* End of file mtop_content_lang.php */
 /* Location: ./system/language/zh-hans/mtop_content_lang.php */
