@@ -36,6 +36,7 @@ class Inception extends Front_Controller  {
                     
                         $this->inception->add_inception_form($form_data); 
                     }else{
+                        
                         $form_data = array( 
                         $this->input->post('form_sql'),
                         $this->input->post('form_description'),
@@ -53,7 +54,7 @@ class Inception extends Front_Controller  {
         $data["form_info"]='';
         $data["datalist"]=$this->inception->get_service_line();
         if ($form_id!=null){
-            $data["form_info"]=$this->inception->get_form_info($form_id);
+            $data["form_info"]=$this->inception->get_change_form_info($form_id);
         }
         $this->layout->view("inception/create",$data);
     }

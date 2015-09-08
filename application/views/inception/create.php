@@ -46,7 +46,7 @@
                                     foreach ($form_info  as $info_item): 
                                         print($info_item['form_sql']); 
                                     endforeach;
-                            } ?> </textarea>
+                            } ?></textarea>
                         <span class="help-inline"></span>
                     </div>
                  </div>
@@ -58,8 +58,7 @@
                                     foreach ($form_info  as $info_item): 
                                          echo $info_item['form_description'] ;
                                     endforeach;
-                            } ?>
-                        </textarea>
+                            } ?></textarea>
                         <span class="help-inline"></span>
                     </div>
                 </div>
